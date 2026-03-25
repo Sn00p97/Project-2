@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>kerge chtabox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 320px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+    .message {
+      background: #e1f3fb;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 6px;
+    }
+    form {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    input[type="kirj"] {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <form id="chat-form">
+      <input type="text" id="message-input" placeholder="kirjuta krij..." required>
+      <button type="submit">saada</button>
+    </form>
+  </div>
+  <script>
+    const messagesContainer = document.getElementById('messages');
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message-input');
+    // Load saved messages from localStorage
+    let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    renderMessages();
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = messageInput.value.trim();
+      if (text !== '') {
+        messages.push(text);
+        localStorage.setItem('chatMessages', JSON.stringify(messages));
+        renderMessages();
+        messageInput.value = '';
+      }
+    });
+    function renderMessages() {
+      messagesContainer.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.textContent = msg;
+        messagesContainer.appendChild(div);
+      });
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  </script>
+</body>
+</html>
