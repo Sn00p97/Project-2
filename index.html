@@ -95,7 +95,7 @@
             try {
                 const response = await fetch('https://tinkr.tech/sdb/chatbox/chatbox'); 
                 const data = await response.json();
-                messages = data.messages ?? data;  
+                messages = data.messages  
                 renderMessages();
             } catch (err) {
                 console.error('Could not load messages:', err);
